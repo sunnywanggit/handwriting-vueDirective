@@ -1,0 +1,9 @@
+{
+  "name": "handwriting-vueDirective",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "dependencies": {
+    "vue": "^2.6.11"
+  }
+}

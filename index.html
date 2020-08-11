@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>vue directive</title>
+</head>
+<body>
+<div id="app">
+    <!--我希望输入框一获取焦点，就把div显示出来-->
+    <div v-click-outside="blur">
+        {{test}}
+        <input type="text" @focus="focus">
+        <div v-show="visible">面板</div>
+    </div>
+</div>
+<script src="node_modules/vue/dist/vue.js"></script>
+<script>
+    //指令的目的就是 dom 操作
+    let vm = new Vue({
+        el: '#app',
+        directives: {
+            clickOutside: {}
+
+        },
+        data() {
+            return {
+                visible:false,
+                test: 'stes'
+            };
+        },
+        methods: {
+            focus() {
+                console.log('focus');
+                this.visibe = true;
+            },
+            blur() {
+                this.visibe = false;
+            }
+        }
+    });
+</script>
+</body>
+</html>
