@@ -9,9 +9,8 @@
 </head>
 <body>
 <div id="app">
-    <!--我希望输入框一获取焦点，就把div显示出来-->
+    <!--自定义 click outside 指令,希望输入框一获取焦点，就把div显示出来-->
     <div v-click-outside="blur">
-        {{test}}
         <input type="text" @focus="focus">
         <div v-show="visible">面板</div>
     </div>
@@ -22,18 +21,22 @@
     let vm = new Vue({
         el: '#app',
         directives: {
-            clickOutside: {}
-
+            clickOutside: {
+                /*
+                指令绑定的时候会执行
+                需要注意的是，有bind方法的时候，父元素这个时候还不存在
+                 */
+                bind(el,bindings,vnode,oldVnode){
+                    console.log('bind');
+                    console.log(el.parentNode);
+                }
+            }
         },
         data() {
-            return {
-                visible:false,
-                test: 'stes'
-            };
+            return { visible:false, };
         },
         methods: {
             focus() {
-                console.log('focus');
                 this.visibe = true;
             },
             blur() {
