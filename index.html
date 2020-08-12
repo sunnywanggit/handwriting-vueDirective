@@ -12,7 +12,10 @@
     <!--自定义 click outside 指令,希望输入框一获取焦点，就把面板显示出来,点击输入框之外的部分，面板就影藏  -->
     <div v-click-outside="blur">
         <input type="text" @focus="focus">
-        <div v-show="visible">面板</div>
+        <div v-show="visible" style="border: 1px solid red;">
+            面板
+            (点击面板区域，面板也不会隐藏哦）
+        </div>
     </div>
 </div>
 <script src="node_modules/vue/dist/vue.js"></script>
