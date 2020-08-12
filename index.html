@@ -29,6 +29,10 @@
                 bind(el,bindings,vnode,oldVnode){
                     console.log('bind');
                     console.log(el.parentNode);
+                },
+                //当我目前的元素被插入到父元素中了，这个时候就可以拿到父元素了
+                inserted(el){
+                    console.log(el.parentNode);
                 }
             }
         },
