@@ -5,11 +5,11 @@
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>vue directive</title>
+    <title>vue directive : v-click-outside</title>
 </head>
 <body>
 <div id="app">
-    <!--自定义 click outside 指令,希望输入框一获取焦点，就把div显示出来-->
+    <!--自定义 click outside 指令,希望输入框一获取焦点，就把面板显示出来,点击输入框之外的部分，面板就影藏  -->
     <div v-click-outside="blur">
         <input type="text" @focus="focus">
         <div v-show="visible">面板</div>
@@ -21,31 +21,47 @@
     let vm = new Vue({
         el: '#app',
         directives: {
+                //你也可以把指令写成一个函数，函数的话默认就是 bind  + update
+                // clickOutside(){
+                //
+                // }
+
             clickOutside: {
                 /*
                 指令绑定的时候会执行
                 需要注意的是，有bind方法的时候，父元素这个时候还不存在
                  */
                 bind(el,bindings,vnode,oldVnode){
-                    console.log('bind');
-                    console.log(el.parentNode);
+                    el.handler = (e)=>{
+                        //如果当前 el 不包含我当前点击的部分，隐藏面板
+                        if(!el.contains(e.target)){
+                            let method = bindings.expression;
+                            //vnode.context 代表的就是当前的指令所在的上下文
+                            vnode.context[method]();
+                        }
+                    };
+                    document.addEventListener('click',el.handler)
                 },
-                //当我目前的元素被插入到父元素中了，这个时候就可以拿到父元素了
-                inserted(el,bindings,vnode,oldVnode){
-                    console.log(el.parentNode);
-                },
-                //更新之前调用
-                update(el,bindings,vnode,oldVnode){
-                    console.log(el.innerHTML);
-                },
-                //更新之后调用
-                componentUpdated(el,bindings,vnode,oldVnode){
-
-                },
-                //指令解绑时进行调用,解除事件绑定时进行调用
-                unbind(el,bindings,vnode,oldVnode){
-
+                //注意要进行解绑,组件会在标签销毁的时候进行 unbind
+                unbind(el){
+                    document.removeEventListener('click',el.handler)
                 }
+                //当我目前的元素被插入到父元素中了，这个时候就可以拿到父元素了
+                // inserted(el,bindings,vnode,oldVnode){
+                //     console.log(el.parentNode);
+                // },
+                //更新之前调用
+                // update(el,bindings,vnode,oldVnode){
+                //     console.log(el.innerHTML);
+                // },
+                //更新之后调用
+                // componentUpdated(el,bindings,vnode,oldVnode){
+                //
+                // },
+                //指令解绑时进行调用,解除事件绑定时进行调用
+                // unbind(el,bindings,vnode,oldVnode){
+                //
+                // }
             }
         },
         data() {
@@ -53,10 +69,10 @@
         },
         methods: {
             focus() {
-                this.visibe = true;
+                this.visible = true;
             },
             blur() {
-                this.visibe = false;
+                this.visible = false;
             }
         }
     });
