@@ -31,8 +31,20 @@
                     console.log(el.parentNode);
                 },
                 //当我目前的元素被插入到父元素中了，这个时候就可以拿到父元素了
-                inserted(el){
+                inserted(el,bindings,vnode,oldVnode){
                     console.log(el.parentNode);
+                },
+                //更新之前调用
+                update(el,bindings,vnode,oldVnode){
+                    console.log(el.innerHTML);
+                },
+                //更新之后调用
+                componentUpdated(el,bindings,vnode,oldVnode){
+
+                },
+                //指令解绑时进行调用,解除事件绑定时进行调用
+                unbind(el,bindings,vnode,oldVnode){
+
                 }
             }
         },
